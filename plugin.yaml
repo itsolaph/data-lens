@@ -1,0 +1,28 @@
+name: data-lens
+version: "0.1.0"
+description: "Automatic structural maps and exact bounded queries for local CSV, JSON-array and JSONL files. When read_file's default page of a large file inside configured roots would flood context, Data Lens replaces it with a typed map computed over all records; two read-only tools (data_lens_profile, data_lens_query) then filter/group/aggregate with exact Decimal sums. Standard library only, no network, no model calls."
+author: "Data Lens contributors"
+license: MIT
+requires_hermes: ">=0.23.0"
+provides_tools:
+  - data_lens_profile
+  - data_lens_query
+provides_middleware:
+  - tool_execution
+config_schema:
+  roots:
+    type: list
+    default: []
+    description: "Absolute host directories Data Lens may read. Empty (default) = nothing is readable."
+  host_local:
+    type: bool
+    default: false
+    description: "Set true only when the agent's file tools run on this same machine (not Docker/SSH/remote)."
+  intercept_read_file:
+    type: bool
+    default: true
+    description: "Replace default read_file pages of large in-root data files with a structural map."
+  limits:
+    type: dict
+    default: {}
+    description: "Optional bounds (max_rows, max_bytes, time_limit_s, ...). Cannot exceed hard ceilings."
